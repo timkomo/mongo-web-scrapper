@@ -1,3 +1,47 @@
 .jumbotron{
-    background-color: green;
+    background-image: url("../bill.jpg");
+    -webkit-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    background-size: 100% 100%;
 }
+
+h1 {
+    font-family: 'Libre Barcode 128 Text', cursive;
+    font-size: 80px;
+    margin-top: 45px;
+}
+
+.btn-fetch {
+    margin-bottom: 30px;
+}
+
+body {
+    background-image: url("../eight_horns.png");
+    background-repeat: repeat-xy;
+}
+
+
+ h5 {
+     color: black;
+     font-family: 'Tenor Sans', sans-serif;
+ }
+
+ .nav-link, .navbar-brand {
+     color: rgb(25, 167, 25);
+     font-size: 24px;
+     font-family: 'Tenor Sans', sans-serif;
+     text-align: center
+ }
+
+ .nav-link:hover, .navbar-brand:hover {
+    color: green;
+    font-size: 24px;
+    font-family: 'Tenor Sans', sans-serif;
+    text-align: center
+
+ }
+
+ p {
+    font-family: 'Tenor Sans', sans-serif;
+ }

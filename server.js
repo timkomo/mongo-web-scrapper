@@ -25,12 +25,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Use express.static to serve the public folder as a static directory
 app.use(express.static("public"));
 
-// Set mongoose to leverage built in JavaScript ES6 Promises
-// Connect to the Mongo DB
 
-mongoose.connect("mongodb://localhost/mongoscraper", {
-  
-});
+
+// mongoose.connect("mongodb://localhost/mongoscraper", {
+
+// });
 
 // Routes
 app.get("/", function(req, res) {
@@ -40,42 +39,40 @@ app.get("/", function(req, res) {
 // A GET route for scraping the invision blog
 app.get("/scrape", function(req, res) {
   
-  
   request("https://richmond.craigslist.org/d/musical-instruments/search/msa", function(error, response, html) {
-    // console.log(html, " this is the HTML ---------------------");
+    
     var $ = cheerio.load(html);
 
-    $("ul.rows").each(function(i, element) {
+    $(".result-row").each(function(i, element) {
       
-      var listItem = $(element).children("li").children(".result-row").children(".result-img").text();
-      console.log(listItem, "these are the childern")
-  //     var link = $(element).text();
-  //     var snippet = $(element).text();
-  //     var articleCreated = moment().format("YYYY MM DD hh:mm:ss");
+      var title = $(element).children().children('.result-title').text();
+      var link = $(element).children().attr('href');
+      var snippet = $(element).children().children('.result-price').text();
+      var articleCreated = moment().format("YYYY MM DD hh:mm:ss");
 
-  //     var result = {
-  //       title: title,
-  //       link: link,
-  //       snippet: snippet,
-  //       articleCreated: articleCreated,
-  //       isSaved: false
-  //     }
+      var result = {
+        title: title,
+        link: link,
+        snippet: snippet,
+        articleCreated: articleCreated,
+        isSaved: false
+      }
       
-  //     console.log(result);
+      console.log(result);
       
-  //     db.Article.findOne({title:title}).then(function(data) {
+      db.Article.findOne({title:title}).then(function(data) {
         
-  //       console.log(data);
+        console.log(data);
 
-  //       if(data === null) {
+        if(data === null) {
 
-  //         db.Article.create(result).then(function(dbArticle) {
-  //           res.json(dbArticle);
-  //         });
-  //       }
-  //     }).catch(function(err) {
-  //         res.json(err);
-  //     });
+          db.Article.create(result).then(function(dbArticle) {
+            res.json(dbArticle);
+          });
+        }
+      }).catch(function(err) {
+          res.json(err);
+      });
 
     });
 
@@ -165,12 +162,12 @@ app.put("/delete/:id", function(req, res) {
     });
 });
 
-// var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoScraper";
 
-// mongoose.Promise = Promise;
-// mongoose.connect(MONGODB_URI, {
-//   useMongoClient: true
-// });
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI, {
+  useMongoClient: true
+});
 
 
 // Start the server
